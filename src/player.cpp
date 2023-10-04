@@ -7,11 +7,20 @@ Player::Player(int left_pin_, int right_pin_, int button_pin_){
 }
 
 void Player::click(){
-    stick = digitalRead(left_pin) + digitalRead(right_pin) * -1;
+    int8_t stick_new = digitalRead(left_pin) + digitalRead(right_pin) * -1;
+    bool button_new = !digitalRead(button_pin);
 
-    button = !digitalRead(button_pin);
+    if(button != button_new && millis() - button_filter_timer >= BUTTON_FILTERING_TIME){
+        button = button_new;
+        button_filter_timer = millis();
 
-    changed_state = true;
+        changed_state = true;
+    }
+
+    if(stick != stick_new){
+        stick = stick_new;
+        changed_state = true;
+    }
 }
 
 bool Player::changed(){

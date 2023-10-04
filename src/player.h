@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <Arduino.h>
+#include "config.h"
 
 class Player{
     int left_pin, right_pin, button_pin;
@@ -10,6 +11,8 @@ class Player{
     bool last_button = 0;
 
     bool changed_state = false;
+
+    uint64_t button_filter_timer = 0;
 public:
     int8_t stick = 0;
     bool button = 0;

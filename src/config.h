@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#pragma once
+
 //#define STATIC_MOTHERBOARD_ADDR
 
 #define DEFAULT_GAMEPAD_ID 3
@@ -18,6 +20,7 @@ static uint8_t motherboadrd_addr[] = {0xA8, 0x42, 0xE3, 0xC9, 0xE0, 0x04};
 #endif
 
 
+#define BUTTON_FILTERING_TIME 50
 
 #define LATCH_PIN 15
 #define SCK_PIN 13
