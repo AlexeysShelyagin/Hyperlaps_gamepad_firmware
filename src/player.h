@@ -16,7 +16,7 @@ public:
 
     Player(int left_pin_, int right_pin_, int button_pin_);
 
-    void tick();
+    void click();
 
     bool changed();
 };

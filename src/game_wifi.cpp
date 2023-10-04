@@ -14,8 +14,9 @@ void Game_wifi::on_data_recv(uint8_t *mac, uint8_t *incoming_data, uint8_t len){
     Recieve::updates_available = true;
 }
 
-bool Game_wifi::init(uint8_t *motherboard_addr){
+bool Game_wifi::init(uint8_t *motherboard_addr, uint8_t id){
     address = motherboard_addr;
+    gamepad_id = id;
 
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
@@ -32,11 +33,16 @@ bool Game_wifi::init(uint8_t *motherboard_addr){
     return 1;
 }
 
+void Game_wifi::change_id(uint8_t id){
+    gamepad_id = id;
+    // TODO: write id to eeprom
+}
+
 void Game_wifi::send_player_state(Player &player){
     Player_data state;
     state.stick = player.stick;
     state.button = player.button;
-    state.id = GAMEPAD_ID;
+    state.id = gamepad_id;
     esp_now_send(address, (uint8_t *) &state, sizeof(state));
 }
 
@@ -48,6 +54,6 @@ void Game_wifi::update_recieved(){
     Motherboard_response data;
     memcpy(&data, Recieve::recieved_data, sizeof(Motherboard_response));
 
-    if(data.id == GAMEPAD_ID)
+    if(data.id == gamepad_id)
         score = data.score;
 }

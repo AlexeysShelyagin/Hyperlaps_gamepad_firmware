@@ -6,10 +6,10 @@ Player::Player(int left_pin_, int right_pin_, int button_pin_){
     button_pin = button_pin_;
 }
 
-void Player::tick(){
+void Player::click(){
     stick = digitalRead(left_pin) + digitalRead(right_pin) * -1;
 
-    button = digitalRead(button_pin);
+    button = !digitalRead(button_pin);
 
     changed_state = true;
 }

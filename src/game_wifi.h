@@ -6,11 +6,11 @@
 #include <espnow.h>
 
 #include "player.h"
-#include "config.h"
 
 class Game_wifi{
     uint8_t *address;
     static uint8_t recieved_score;
+    uint8_t gamepad_id;
 
     struct Player_data{
         uint8_t id = 0;
@@ -31,7 +31,8 @@ public:
 
     Game_wifi() = default;
 
-    bool init(uint8_t *motherboard_addr);
+    bool init(uint8_t *motherboard_addr, uint8_t id);
+    void change_id(uint8_t id);
 
     void send_player_state(Player &player);
 

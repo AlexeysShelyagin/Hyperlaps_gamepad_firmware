@@ -4,12 +4,13 @@
 #include "indicator.hpp"
 #include "player.h"
 #include "game_wifi.h"
+#include "reconnection.hpp"
 
 Player player(STICK_LEFT, STICK_RIGHT, BUTTON);
 Game_wifi wifi;
 
 IRAM_ATTR void player_event(){
-    player.tick();
+    player.click();
 }
 
 void setup() {
@@ -32,7 +33,13 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(STICK_RIGHT), player_event, CHANGE);
   attachInterrupt(digitalPinToInterrupt(BUTTON), player_event, CHANGE);
 
-  wifi.init(motherboadrd_addr);
+  wifi.init(motherboadrd_addr, DEFAULT_GAMEPAD_ID);
+
+#ifdef DYNAMIC_MOTHERBOARD_ADDR
+  if(digitalRead(BUTTON) == 0){
+    wifi.change_id(select_id_process(player));
+  }
+#endif
 
   Serial.println("initialized");
   
@@ -40,6 +47,7 @@ void setup() {
     set_score(i);
     delay(50);
   }
+  delay(100);
 }
 
 

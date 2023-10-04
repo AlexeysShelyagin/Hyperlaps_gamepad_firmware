@@ -1,9 +1,21 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define GAMEPAD_ID 0
+//#define STATIC_MOTHERBOARD_ADDR
+
+#define DEFAULT_GAMEPAD_ID 3
+
+
+#ifdef STATIC_MOTHERBOARD_ADDR
 
 static uint8_t motherboadrd_addr[] = {0xA8, 0x42, 0xE3, 0xC9, 0xE0, 0x04};
+
+#else
+
+#define DYNAMIC_MOTHERBOARD_ADDR
+static uint8_t motherboadrd_addr[] = {0xA8, 0x42, 0xE3, 0xC9, 0xE0, 0x04};
+
+#endif
 
 
 
