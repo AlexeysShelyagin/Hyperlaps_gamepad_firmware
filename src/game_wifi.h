@@ -20,14 +20,14 @@ class Game_wifi{
 
     struct Motherboard_response{
         uint8_t id = 0;
-        uint8_t score = 0;
+        int8_t score = 0;
     };
 
     static void on_data_sent(uint8_t *mac, uint8_t status);
     static void on_data_recv(uint8_t *mac, uint8_t *incoming_data, uint8_t len);
 
 public:
-    uint8_t score = 0;
+    int8_t score = 0;
 
     Game_wifi() = default;
 

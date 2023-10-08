@@ -8,6 +8,7 @@
 
 Player player(STICK_LEFT, STICK_RIGHT, BUTTON);
 Game_wifi wifi;
+uint8_t score = 10;
 
 IRAM_ATTR void player_event(){
     player.click();
@@ -47,14 +48,35 @@ void setup() {
     set_score(i);
     delay(50);
   }
-  delay(100);
+  delay(50);
 }
 
 
 void loop() {
-    if(player.changed())
+  if(score != 0){
+    if(player.changed()){
         wifi.send_player_state(player);
+    }
     
     wifi.update_recieved();
-    set_score(wifi.score);  
+    score += wifi.score;
+    wifi.score = 0;
+    score = max(score, (uint8_t) 0);
+    score = min(score, (uint8_t) 10);
+    set_score(score);  
+  }
+  else{
+    set_score(10 * !(millis() / 500 % 2));
+
+    if(player.changed() && player.button){
+      set_score(0);
+      delay(1000);
+      for(int i = 0; i <= 10; i++){
+        set_score(i);
+        delay(50);
+      }
+      delay(50);
+      score = 10;
+    }
+  }
 }
